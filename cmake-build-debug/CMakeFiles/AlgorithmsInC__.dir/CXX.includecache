@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/m.cheikhna/CLionProjects/AlgorithmsInC++/RabinKarp.cpp
+iterator
+-
+algorithm
+-
+vector
+-
+string
+-
+iostream
+-
+
