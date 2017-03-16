@@ -23,7 +23,7 @@ ForwardIterator1
 RabinKarpMatch(ForwardIterator1 textBegin, ForwardIterator1 textEnd,
                ForwardIterator2 patternBegin, ForwardIterator2 patternEnd) {
     /* The number of possible characters. */
-    const size_t kNumChars = 256;
+    const size_t alphabetSize = 256;
 
     /* A prime number q such that 256q fits into a 32-bit machine word.  On a 64-
      * bit machine, it may be advantageous to pick a larger prime.
@@ -50,7 +50,7 @@ RabinKarpMatch(ForwardIterator1 textBegin, ForwardIterator1 textEnd,
          * you would use to update the value of a base-n number by appending a new
          * digit to that number.
          */
-        patternHash = (patternHash * kNumChars + (unsigned char) *itr) % kPrime;
+        patternHash = (patternHash * alphabetSize + (unsigned char) *itr) % kPrime;
     }
 
     /* Next, compute the hash code for the first |P| characters of the text.  We
@@ -64,7 +64,7 @@ RabinKarpMatch(ForwardIterator1 textBegin, ForwardIterator1 textEnd,
      * the above case.
      */
     for (size_t i = 0; i < patternSize; ++i, ++itr)
-        hashCode = (hashCode * kNumChars + (unsigned char) *itr) % kPrime;
+        hashCode = (hashCode * alphabetSize + (unsigned char) *itr) % kPrime;
 
     /* Before we can enter the loop, we'll need to know the value of n^k from the
      * above formula, which we'll need to have on-hand so we can update the hash
@@ -72,7 +72,7 @@ RabinKarpMatch(ForwardIterator1 textBegin, ForwardIterator1 textEnd,
      */
     size_t highestRadix = 1;
     for (size_t i = 0; i < patternSize; ++i)
-        highestRadix = (highestRadix * kNumChars) % kPrime;
+        highestRadix = (highestRadix * alphabetSize) % kPrime;
 
     /* Finally, enter the actual loop logic.  Scan across the rest of the text,
      * checking for matches and updating the hash code as appropriate.  In the
@@ -105,7 +105,7 @@ RabinKarpMatch(ForwardIterator1 textBegin, ForwardIterator1 textEnd,
          */
 
         /* Step one: Scale up the hash code. */
-        hashCode = (hashCode * kNumChars) % kPrime;
+        hashCode = (hashCode * alphabetSize) % kPrime;
 
         /* Step two: Add in the next character. */
         hashCode = (hashCode + (unsigned char) *itr) % kPrime;
