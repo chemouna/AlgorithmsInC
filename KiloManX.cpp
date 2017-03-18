@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 #include <queue>
-#include <iterator>
 
 using namespace std;
 
@@ -19,33 +18,32 @@ struct Node {
 
 // reverse condition to put on top of the priority queue the minimum
 bool operator<(const Node &n1, const Node &n2) {
-    if (n1.shots_ < n2.shots_) return false;
-    return true;
+    return n1.shots_ >= n2.shots_;
 }
 
 
 int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth) {
 
-    const int n = (const int) damageChart.size();
-    const int numWeapons = (const int) damageChart[0].size();
+    const int numWeapons = bossHealth.size();
     vector<bool> visited(32768, false);
     priority_queue<Node> pq;
     pq.push(Node(0, 0));
 
     while (!pq.empty()) {
         Node top = pq.top();
+        pq.pop();
 
         if (visited[top.weapons_]) continue;
         visited[top.weapons_] = true;
 
         //check if target reached : all bosses defeated which is equivalent to having all the weapons
-        if (top.weapons_ == (1 << numWeapons) - 1) {
+        if (top.weapons_ == ((1 << numWeapons) - 1)) {
             return top.shots_;
         }
 
         //relax step
         for (int i = 0; i < damageChart.size(); i++) {
-            if ((i << numWeapons) & 1) continue;
+            if ((top.weapons_ >> i) & 1) continue; //if we already has this weapon continue
 
             // Figure out what the best amount of time that we can destroy this boss is, given the weapons we have.
             // We initialize this value to the boss's health, as that is our default (with KiloBuster).
@@ -59,10 +57,10 @@ int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth)
 
                 //if i've got this weapon (its bit is set on my weapons field) and it has power (its not '0')
                 //then i can use it
-                if (((j << top.weapons_) & 1) && damageChart[j][i] != '0') {
+                if (((top.weapons_ >> j) & 1) && damageChart[j][i] != '0') {
                     //we have the weapon so lets defeat the boss with it
                     int shotsNeeded = bossHealth[i] / (damageChart[j][i] - '0'); //?
-                    if (bossHealth[i] % damageChart[j][i] != '0') { // ?
+                    if (bossHealth[i] % (damageChart[j][i] - '0') != 0) { // ?
                         shotsNeeded++;
                     }
                     best = min(best, shotsNeeded);
@@ -70,7 +68,7 @@ int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth)
             }
             // Decrease operation : Add the new node to be searched, showing that we defeated boss i and so we have
             //  his weapons now (==> we union weapons bits field with 1 << i) and we used 'best' shots to defeat him.
-            pq.push(Node(top.weapons_ | 1 << i, top.shots_ + best));
+            pq.push(Node(top.weapons_ | (1 << i), top.shots_ + best));
         }
     }
 
@@ -88,5 +86,5 @@ int main(int argc, char *argv[]) {
     bossHealth[1] = 150;
     bossHealth[2] = 150;
 
-    leastShots(damageChart, bossHealth); // it should be: 218;
+    std::cout << leastShots(damageChart, bossHealth); // it should be: 218;
 }
