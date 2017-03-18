@@ -17,6 +17,13 @@ struct Node {
     int shots_;
 };
 
+// reverse condition to put on top of the priority queue the minimum
+bool operator<(const Node &n1, const Node &n2) {
+    if (n1.shots_ < n2.shots_) return false;
+    return true;
+}
+
+
 int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth) {
 
     const int n = (const int) damageChart.size();
@@ -70,4 +77,16 @@ int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth)
     return -1;
 }
 
+int main(int argc, char *argv[]) {
+    vector<string> damageChart(3);
+    damageChart[0] = "070";
+    damageChart[1] = "500";
+    damageChart[2] = "140";
 
+    vector<int> bossHealth(3);
+    bossHealth[0] = 150;
+    bossHealth[1] = 150;
+    bossHealth[2] = 150;
+
+    leastShots(damageChart, bossHealth); // it should be: 218;
+}
