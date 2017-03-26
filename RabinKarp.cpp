@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
     std::string s = "Hello World";
     std::string t = "Wo";
     std::string::iterator it = RabinKarpMatch(s.begin(), s.end(), t.begin(), t.end());
-    std::cout << "I: " << it-s.begin();
+    std::cout << "I: " << it - s.begin();
 }
 
 //#endif

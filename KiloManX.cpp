@@ -53,7 +53,7 @@ int leastShots(const vector<string> &damageChart, const vector<int> &bossHealth)
 
             for (int j = 0; j < damageChart.size(); j++) {
 
-                if (i == j) continue; // ?
+                if (i == j) continue;
 
                 //if i've got this weapon (its bit is set on my weapons field) and it has power (its not '0')
                 //then i can use it
