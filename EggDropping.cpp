@@ -32,15 +32,10 @@ int main() {
     int e;
     int f;
     cout << "Egg dropping puzzle\n\nNumber of eggs:";
-
     cin >> e;
-
     cout << "\nNumber of floors:";
-
     cin >> f;
-
     cout << "\nNumber of drops in the worst case:" << eggdrop_recur(e, f);
-
     return 0;
 }
 
