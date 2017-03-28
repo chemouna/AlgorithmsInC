@@ -27,7 +27,7 @@ int solveEggDropPuzzle(int n, int k) {
         numdrops[0][i2] = 0;
     }
     for (int i3 = 0; i3 <= n; ++i3) {
-        numdrops[i3][0] = 0;10
+        numdrops[i3][0] = 0;
     }
 
     for (int i = 2; i <= n; ++i) {
