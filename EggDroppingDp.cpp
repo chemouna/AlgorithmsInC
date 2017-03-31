@@ -16,22 +16,22 @@ int min(int a, int b) {
     return ans;
 }
 
-int solveEggDropPuzzle(int n, int k) {
+int solveEggDropPuzzle(int eggs, int floors) {
 
-    int numdrops[n + 1][k + 1];
+    int numdrops[eggs + 1][floor + 1];
 
-    for (int i1 = 0; i1 <= k; ++i1) {
+    for (int i1 = 0; i1 <= floor; ++i1) {
         numdrops[1][i1] = i1;
     }
-    for (int i2 = 0; i2 <= k; ++i2) {
+    for (int i2 = 0; i2 <= floors; ++i2) {
         numdrops[0][i2] = 0;
     }
-    for (int i3 = 0; i3 <= n; ++i3) {
+    for (int i3 = 0; i3 <= eggs; ++i3) {
         numdrops[i3][0] = 0;
     }
 
-    for (int i = 2; i <= n; ++i) {
-        for (int j = 1; j <= k; ++j) {
+    for (int i = 2; i <= eggs; ++i) {
+        for (int j = 1; j <= floors; ++j) {
             int minimum = INT_MAX;
 
             for (int x = 1; x <= j; ++x) {
@@ -42,7 +42,7 @@ int solveEggDropPuzzle(int n, int k) {
         }
     }
 
-    return numdrops[n][k];
+    return numdrops[eggs][floors];
 }
 
 int main() {
