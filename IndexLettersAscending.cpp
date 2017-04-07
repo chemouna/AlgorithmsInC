@@ -1,11 +1,8 @@
 
 #include <iostream>
 #include <iomanip>
-#include <cassert>
-#include <algorithm>
-#include <vector>
-#include <string>
 
+static const int alphabetSize = 26;
 using namespace std;
 
 bool isInAscendingOrder(string str) {
@@ -30,7 +27,7 @@ static int FindIndex(string str) {
     int index = 0;
     int i = 1;
     while (i < str.size()) {
-        index += NChooseK(26, i);
+        index += NChooseK(alphabetSize, i);
         i++;
     }
 
@@ -50,64 +47,55 @@ static int FindIndex(string str) {
     return index;
 }
 
-#include<iostream>
-#include<cstring>
-using namespace std;
-/** During preprocesing, in array 'a'
+/** During preprocessing, in array 'a'
 * a[i][j] stores number of valid combinations
 * of length i+1 starting from (j+1)th character
-* and b[i][j] represents index of first valid combinaction
+* and b[i][j] represents index of first valid combination
 * of length i+1 starting from (j+1)th character
 * */
+void findIndexSol2(char *str) {
+    int a[alphabetSize][alphabetSize] = {0};
+    int b[alphabetSize][alphabetSize] = {0};
+    for (int i = 0; i < alphabetSize; i++)
+        a[0][i] = 1;
 
-void preprocess(char* str){
-
-    int a[26][26]={0};
-    int b[26][26]={0};
-    for(int i=0; i<26; i++)
-        a[0][i]=1;
-
-    for(int i=1;i<26;i++){
-        for(int j=0;j<26;j++){
-            for(int k=j+1;k<26;k++){
-                a[i][j]=a[i][j]+a[i-1][k];
+    for (int i = 1; i < alphabetSize; i++) {
+        for (int j = 0; j < alphabetSize; j++) {
+            for (int k = j + 1; k < alphabetSize; k++) {
+                a[i][j] = a[i][j] + a[i - 1][k];
             }
         }
     }
 
-
-    b[0][0]=1;
-    for(int i=0;i<26;i++)
-        for(int j=0;j<26;j++){
-            if(j!=0)
-                b[i][j]=b[i][j-1]+a[i][j-1];
-            if(j==0 && i!=0)
-                b[i][j]=b[i-1][25]+a[i-1][25];
+    b[0][0] = 1;
+    for (int i = 0; i < alphabetSize; i++)
+        for (int j = 0; j < alphabetSize; j++) {
+            if (j != 0)
+                b[i][j] = b[i][j - 1] + a[i][j - 1];
+            if (j == 0 && i != 0)
+                b[i][j] = b[i - 1][25] + a[i - 1][25];
         }
-
 
 
     int len = strlen(str);
     int result = 0;
     int mvindx = 0;
-    for(int i=len-1; i>=0 ; i--){
-        char ch = str[len-1-i];
-        int indx = int(str[len-1-i])-'a';
-        if(i!=0)
-            mvindx=b[i-1][indx+1];
+    for (int i = len - 1; i >= 0; i--) {
+        int indx = int(str[len - 1 - i]) - 'a';
+        if (i != 0)
+            mvindx = b[i - 1][indx + 1];
         else
             mvindx = 0;
-        result = result + b[i][indx]-mvindx;
+        result = result + b[i][indx] - mvindx;
     }
-    cout<<"\nResult----"<<str<<"----"<<result;
+    cout << "\nResult----" << str << "----" << result;
 
 }
 
 static void DoTest(char *str) {
     cout << setw(10) << left << str;
     //cout << " ----> " << left << FindIndex(str) << endl;
-    //a[str.length()] = str;
-    preprocess(str);
+    findIndexSol2(str);
     cout << "--------------------------------" << endl;
 }
 
