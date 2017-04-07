@@ -8,6 +8,8 @@
  * Input: [8, 58, 71, 18, 31, 32, 63, 92, 43, 3, 91, 93, 25, 80, 28]
  * Output: [18, 63, 80, 25, 32, 43, 80, 93, 80, 25, 93, -1, 28, -1, -1]
  *
+ * Solution: we use the fact that in a binary tree the left branch of each node at the leaf contain the least
+ * greater element of the right side of an array if we onsert that an array in the binary tree by its current order.
  */
 #include "iostream"
 

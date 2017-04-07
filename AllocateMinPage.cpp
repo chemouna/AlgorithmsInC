@@ -28,7 +28,6 @@ in following fashion :
 
 using namespace std;
 
-
 int findPages(vector<int> pages, int students) {
     int lo = *max_element(pages.begin(), pages.end());
     int hi = accumulate(pages.begin(), pages.end(), 0);
